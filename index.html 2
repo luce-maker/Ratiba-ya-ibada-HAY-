@@ -1,0 +1,399 @@
+Here is an HTML document that transforms your Swahili timetable into a clean, responsive webpage you can host anywhere.
+
+```html
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Ratiba ya Kiroho | Asubuhi hadi Jioni</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f8f5f0 0%, #e8e0d5 100%);
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            padding: 2rem 1rem;
+            color: #1e2a2e;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .hero {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #2c5f2d, #4a7c3f);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #5a4a3a;
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #d9c5a7;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #3b2a1f;
+            margin-top: 0.8rem;
+        }
+
+        /* day cards */
+        .day-card {
+            background: white;
+            border-radius: 2rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s;
+        }
+
+        .day-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 32px rgba(0, 0, 0, 0.12);
+        }
+
+        .day-header {
+            background: #2c5f2d;
+            color: white;
+            padding: 1rem 1.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .day-name {
+            font-size: 1.7rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .day-name small {
+            font-size: 1rem;
+            font-weight: normal;
+            opacity: 0.85;
+            margin-left: 0.5rem;
+        }
+
+        .fast-note {
+            background: #e3b87c;
+            color: #2d2b1f;
+            padding: 0.25rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* double column layout */
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            background: #e2dcd2;
+        }
+
+        .schedule-col {
+            background: #fffef7;
+            padding: 1.2rem 1.4rem;
+        }
+
+        .col-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            border-left: 5px solid #d4a373;
+            padding-left: 0.8rem;
+            margin-bottom: 1rem;
+            color: #3b2a1f;
+        }
+
+        .time-slot {
+            display: flex;
+            gap: 0.8rem;
+            padding: 0.7rem 0;
+            border-bottom: 1px dashed #f0e5d8;
+            align-items: baseline;
+            flex-wrap: wrap;
+        }
+
+        .time {
+            font-weight: 700;
+            min-width: 95px;
+            color: #8b5a2b;
+            font-size: 0.85rem;
+            font-family: monospace;
+        }
+
+        .activity {
+            flex: 1;
+            color: #2c3a2b;
+            font-weight: 500;
+        }
+
+        .social-note {
+            background: #fcf3e0;
+            border-radius: 20px;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.75rem;
+            color: #b45f2b;
+            margin-left: 0.4rem;
+            white-space: nowrap;
+        }
+
+        .special-note {
+            background: #f1e8db;
+            padding: 1rem;
+            margin: 1rem 0 0.5rem;
+            border-radius: 1.2rem;
+            font-size: 0.85rem;
+            border-left: 3px solid #c9a87b;
+        }
+
+        .evening-special {
+            background: #fdf8ed;
+        }
+
+        hr {
+            margin: 1rem 0;
+            border: 0;
+            height: 1px;
+            background: linear-gradient(to right, #e2d4c4, transparent);
+        }
+
+        .footer-note {
+            background: #e7ddcf;
+            border-radius: 2rem;
+            padding: 1rem 1.8rem;
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #2c3e2b;
+        }
+
+        @media (max-width: 780px) {
+            .schedule-grid {
+                grid-template-columns: 1fr;
+            }
+            .day-header {
+                flex-direction: column;
+            }
+            .time {
+                min-width: 70px;
+            }
+            body {
+                padding: 1rem 0.8rem;
+            }
+            .col-title {
+                font-size: 1.2rem;
+            }
+        }
+
+        .icon {
+            font-size: 1rem;
+            margin-right: 0.2rem;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="hero">
+        <h1>🕊️ RATIBA YA ASUBUHI HADI JIONI</h1>
+        <p>Maisha ya imani, mpangilio, na ushirika</p>
+        <div class="badge">📅 Wiki ya Kiroho · Saa za Kiswahili (usiku na mchana)</div>
+    </div>
+
+    <!-- SUNDAY / JUMAPILI -->
+    <div class="day-card">
+        <div class="day-header">
+            <span class="day-name">JUMAPILI <small>SUNDAY</small></span>
+        </div>
+        <div class="schedule-grid">
+            <div class="schedule-col">
+                <div class="col-title">🌅 Asubuhi na Mchana</div>
+                <div class="time-slot"><span class="time">saa 11-12 alfajiri</span><span class="activity">✨ Anza siku na BWANA</span></div>
+                <div class="time-slot"><span class="time">saa 3 - 5</span><span class="activity">❓ Maswali na majibu</span></div>
+                <div class="time-slot"><span class="time">saa 5-6</span><span class="activity">🎵 Uimbaji & maombi</span></div>
+                <div class="time-slot"><span class="time">saa 7-8</span><span class="activity">🤝 Social</span></div>
+                <div class="time-slot"><span class="time">saa 9-10</span><span class="activity">📖 Usomaji wa Biblia kwa Mpango</span></div>
+                <div class="time-slot"><span class="time">saa 10-11</span><span class="activity">💰 Ujasiliamali na Fedha</span></div>
+                <div class="time-slot"><span class="time">saa 11-12</span><span class="activity">🎶 Uimbaji na Maliza na BWANA</span></div>
+                <div class="time-slot"><span class="time">saa 12-1</span><span class="activity">🍵 Social</span></div>
+            </div>
+            <div class="schedule-col">
+                <div class="col-title">🌙 Ratiba ya Jioni</div>
+                <div class="time-slot"><span class="time">saa 1-2:30</span><span class="activity">📘 Lesson ya watu wazima & bobea</span></div>
+                <div class="time-slot"><span class="time">saa 2:30-3:00</span><span class="activity">💬 Uimbaji through chatting</span></div>
+                <div class="time-slot"><span class="time">saa 3:00-4:00</span><span class="activity">🙏 Somo na maombi</span></div>
+                <div class="time-slot"><span class="time">saa 4-5</span><span class="activity">❤️ Mfululizo wa kujifunza masomo ya mahusiano</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MONDAY / JUMATATU -->
+    <div class="day-card">
+        <div class="day-header"><span class="day-name">JUMATATU <small>MONDAY</small></span></div>
+        <div class="schedule-grid">
+            <div class="schedule-col"><div class="col-title">☀️ Asubuhi</div>
+                <div class="time-slot"><span class="time">saa 11-12 alfajiri</span><span class="activity">🌟 ANZA NA BWANA</span></div>
+                <div class="time-slot"><span class="time">saa 3-5 asubuhi</span><span class="activity">👥 Social</span></div>
+                <div class="time-slot"><span class="time">saa 5-6</span><span class="activity">📖 Somo na Maombi</span></div>
+                <div class="time-slot"><span class="time">saa 7-8</span><span class="activity">📚 Biblia kwa mpango</span></div>
+                <div class="time-slot"><span class="time">saa 9-10</span><span class="activity">💬 Social</span></div>
+                <div class="time-slot"><span class="time">saa 10-11</span><span class="activity">❓ Maswali na majibu</span></div>
+                <div class="time-slot"><span class="time">saa 11-12</span><span class="activity">🌇 Funga siku na BWANA</span></div>
+                <div class="time-slot"><span class="time">saa 12-1</span><span class="activity">☕ Social</span></div>
+            </div>
+            <div class="schedule-col"><div class="col-title">🌙 Jioni</div>
+                <div class="time-slot"><span class="time">saa 1-2:30</span><span class="activity">📘 Lesson ya watu wazima & bobea</span></div>
+                <div class="time-slot"><span class="time">saa 2:30-3:00</span><span class="activity">🎤 Uimbaji through chatting</span></div>
+                <div class="time-slot"><span class="time">saa 3:00-4:00</span><span class="activity">🙏 Somo na maombi</span></div>
+                <div class="time-slot"><span class="time">saa 4-5</span><span class="activity">💍 Mfululizo wa kujifunza masomo ya mahusiano na Ndoa</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TUESDAY / JUMANNE -->
+    <div class="day-card">
+        <div class="day-header"><span class="day-name">JUMANNE <small>TUESDAY</small></span></div>
+        <div class="schedule-grid">
+            <div class="schedule-col"><div class="col-title">🌄 Asubuhi</div>
+                <div class="time-slot"><span class="time">saa 11-12 alfajiri</span><span class="activity">✨ ANZA NA BWANA</span></div>
+                <div class="time-slot"><span class="time">saa 2-5</span><span class="activity">🤝 Social</span></div>
+                <div class="time-slot"><span class="time">saa 5-6</span><span class="activity">📖 Somo na maombi</span></div>
+                <div class="time-slot"><span class="time">saa 7-8</span><span class="activity">📖 Usomaji wa Biblia Kwa mpango</span></div>
+                <div class="time-slot"><span class="time">saa 9-10</span><span class="activity">🩺 Masomo ya Afya</span></div>
+                <div class="time-slot"><span class="time">saa 10-??</span><span class="activity">❓ Maswali na majibu</span></div>
+                <div class="time-slot"><span class="time">saa 11:30-1</span><span class="activity">🍽️ Social</span></div>
+            </div>
+            <div class="schedule-col"><div class="col-title">🌙 Jioni</div>
+                <div class="time-slot"><span class="time">saa 1-2:30</span><span class="activity">📘 Lesson ya watu wazima & bobea</span></div>
+                <div class="time-slot"><span class="time">saa 2:30-3:00</span><span class="activity">🎵 Uimbaji through chatting</span></div>
+                <div class="time-slot"><span class="time">saa 3:00-4:00</span><span class="activity">🙏 Somo na maombi</span></div>
+                <div class="time-slot"><span class="time">saa 4-5</span><span class="activity">💞 Mfululizo wa kujifunza masomo ya mahusiano na Ndoa</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- WEDNESDAY / JUMATANO (Fasting & Tech) -->
+    <div class="day-card">
+        <div class="day-header"><span class="day-name">JUMATANO <small>WEDNESDAY</small></span> <span class="fast-note">✝️ Maombi ya kufunga</span></div>
+        <div class="schedule-grid">
+            <div class="schedule-col"><div class="col-title">🌅 Asubuhi · Funga</div>
+                <div class="time-slot"><span class="time">saa 11-12 alfajiri</span><span class="activity">🌟 ANZA NA BWANA</span></div>
+                <div class="time-slot"><span class="time">saa 2-4 asubuhi</span><span class="activity">🕯️ Kujiandaa kwa ibada / Social</span></div>
+                <div class="time-slot"><span class="time">saa 4-5</span><span class="activity">🎶 Uimbaji</span></div>
+                <div class="time-slot"><span class="time">saa 5-6</span><span class="activity">📖 Somo na maombi</span></div>
+                <div class="time-slot"><span class="time">saa 7-8</span><span class="activity">📖 Usomaji wa Biblia kwa mpango</span></div>
+                <div class="time-slot"><span class="time">saa 8-9</span><span class="activity">🗣️ Social</span></div>
+                <div class="time-slot"><span class="time">saa 9-10</span><span class="activity">🎤 Uimbaji, ushuhuda na somo</span></div>
+                <div class="time-slot"><span class="time">saa 10-11</span><span class="activity">☕ Social</span></div>
+                <div class="time-slot"><span class="time">saa 11-12:30</span><span class="activity">📱 Jifunze Teknolojia</span></div>
+                <div class="time-slot"><span class="time">saa 12:30-1</span><span class="activity">🤝 social</span></div>
+            </div>
+            <div class="schedule-col"><div class="col-title">🌙 Jioni (kama kawaida)</div>
+                <div class="time-slot"><span class="time">saa 1-2:30</span><span class="activity">📘 Lesson ya watu wazima & bobea</span></div>
+                <div class="time-slot"><span class="time">saa 2:30-3:00</span><span class="activity">🎤 Uimbaji through chatting</span></div>
+                <div class="time-slot"><span class="time">saa 3:00-4:00</span><span class="activity">🙏 Somo na maombi</span></div>
+                <div class="time-slot"><span class="time">saa 4-5</span><span class="activity">❤️ Mfululizo wa kujifunza masomo ya mahusiano na Ndoa</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- THURSDAY / ALHAMISI -->
+    <div class="day-card">
+        <div class="day-header"><span class="day-name">ALHAMISI <small>THURSDAY</small></span></div>
+        <div class="schedule-grid">
+            <div class="schedule-col"><div class="col-title">☀️ Asubuhi</div>
+                <div class="time-slot"><span class="time">saa 11-12 alfajiri</span><span class="activity">✨ ANZA NA BWANA</span></div>
+                <div class="time-slot"><span class="time">saa 2-5</span><span class="activity">👥 Social</span></div>
+                <div class="time-slot"><span class="time">saa 5-6</span><span class="activity">📖 Neno na Maombi</span></div>
+                <div class="time-slot"><span class="time">saa 7-8</span><span class="activity">❓ Maswali na majibu</span></div>
+                <div class="time-slot"><span class="time">saa 8-9</span><span class="activity">📖 Biblia kwa mpango</span></div>
+                <div class="time-slot"><span class="time">saa 9-10</span><span class="activity">🤝 Social</span></div>
+                <div class="time-slot"><span class="time">saa 10-10:30</span><span class="activity">🎶 Uimbaji through chats</span></div>
+                <div class="time-slot"><span class="time">saa 10:30-11:15</span><span class="activity">📖 Somo na maombi</span></div>
+                <div class="time-slot"><span class="time">saa 11:15 - 1</span><span class="activity">🍵 social</span></div>
+            </div>
+            <div class="schedule-col"><div class="col-title">🌙 Jioni</div>
+                <div class="time-slot"><span class="time">saa 1-2:30</span><span class="activity">📘 Lesson ya watu wazima & bobea</span></div>
+                <div class="time-slot"><span class="time">saa 2:30-3:00</span><span class="activity">🎵 Uimbaji through chatting</span></div>
+                <div class="time-slot"><span class="time">saa 3:00-4:00</span><span class="activity">🙏 Somo na maombi</span></div>
+                <div class="time-slot"><span class="time">saa 4-5</span><span class="activity">💑 Mfululizo wa kujifunza masomo ya mahusiano na Ndoa</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FRIDAY / IJUMAA (Sabato preparation) -->
+    <div class="day-card">
+        <div class="day-header"><span class="day-name">IJUMAA <small>FRIDAY</small></span></div>
+        <div class="schedule-grid">
+            <div class="schedule-col"><div class="col-title">🌄 Asubuhi na Maandalizi ya Sabato</div>
+                <div class="time-slot"><span class="time">saa 11-12 alfajiri</span><span class="activity">✨ ANZA NA BWANA</span></div>
+                <div class="time-slot"><span class="time">saa 3-5 asubuhi</span><span class="activity">👥 Social</span></div>
+                <div class="time-slot"><span class="time">saa 5-6</span><span class="activity">🙏 Maombi na somo</span></div>
+                <div class="time-slot"><span class="time">saa 7-8</span><span class="activity">📖 Usomaji wa Biblia kwa mpango</span></div>
+                <div class="time-slot"><span class="time">saa 9-10</span><span class="activity">🤝 Social</span></div>
+                <div class="time-slot"><span class="time">saa 10-11</span><span class="activity">❓ Maswali na majibu</span></div>
+                <div class="time-slot"><span class="time">saa 11-12:30</span><span class="activity">🕯️ Salamu za Sabato / social</span></div>
+                <div class="time-slot"><span class="time">saa 12:30 - saa 1:00</span><span class="activity">⛪ Ufunguzi wa Sabato (makanisani)</span></div>
+            </div>
+            <div class="schedule-col"><div class="col-title">🌙 Jioni · Ibada ya uimbaji</div>
+                <div class="time-slot"><span class="time">saa 1-2:30</span><span class="activity">📘 Lesson ya watu wazima & bobea</span></div>
+                <div class="time-slot"><span class="time">saa 2:30 - 5:00</span><span class="activity">🎤 Ibada ya uimbaji (through chatting)</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SATURDAY / SABATO (Special group closure) -->
+    <div class="day-card">
+        <div class="day-header"><span class="day-name">SABATO <small>SATURDAY</small></span> <span class="fast-note">📌 Group litafungwa vipindi viwili</span></div>
+        <div class="schedule-grid">
+            <div class="schedule-col"><div class="col-title">🗓️ Asubuhi & Ibada Kanisani</div>
+                <div class="time-slot"><span class="time">saa 11-12</span><span class="activity">🌟 Anza na BWANA</span></div>
+                <div class="special-note">📛 <strong>Note:</strong> Group litafungwa saa 2 asubuhi mpaka saa 6 mchana (2:00 - 7:00 masaa ya kanisa) na tena saa 9 mpaka saa 12 jioni.</div>
+                <div class="time-slot"><span class="time">saa 2:00 - 7:00 mchana</span><span class="activity">⛪ Kanisani kwa Ibada</span></div>
+                <div class="time-slot"><span class="time">saa 7:00-9:00</span><span class="activity">🤝 Social na salamu</span></div>
+                <div class="time-slot"><span class="time">saa 9:00-12:00</span><span class="activity">🔒 Group litafungwa (closed)</span></div>
+                <div class="time-slot"><span class="time">saa 12-1</span><span class="activity">🍽️ Social</span></div>
+            </div>
+            <div class="schedule-col"><div class="col-title">🌙 Jioni (baada ya kufunguliwa)</div>
+                <div class="time-slot"><span class="time">saa 1-2:30</span><span class="activity">📘 Lesson ya watu wazima & Bobea</span></div>
+                <div class="time-slot"><span class="time">saa 2:30-3:00</span><span class="activity">🎵 Uimbaji through chatting</span></div>
+                <div class="time-slot"><span class="time">saa 3:00-4:00</span><span class="activity">🙏 Somo na maombi</span></div>
+                <div class="special-note">✨ Jioni inaendelea kwa ratiba ya kawaida baada ya ufunguzi.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Extra notes / summary -->
+    <div class="footer-note">
+        <span>🕊️ “Anza siku na BWANA” · Maombi, Neno na Ushirika · Kila siku ina lengo la kiroho</span><br>
+        <span style="font-size:0.8rem">⏰ Kumbuka: Saa za Kiswahili (11-12 alfajiri = mapema asubuhi) · Masomo ya mahusiano na ndoa Jioni kila siku · Jumatano ni kufunga na teknolojia · Ijumaa Salamu za Sabato</span>
+    </div>
+</div>
+</body>
+</html>
+```
